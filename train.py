@@ -62,6 +62,7 @@ while (b > 0):
 #                     callbacks = [cp_callback])
 yhat = model.predict(test_x, batch_size=1)
 print(yhat)
+yhat = [0 if i <= 0 else 1 for i in yhat]
 equality = tf.math.equal(yhat, test_y)
 accuracy = tf.math.reduce_mean(tf.cast(equality, tf.float32))
 print(accuracy)
