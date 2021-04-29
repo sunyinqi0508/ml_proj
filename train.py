@@ -39,7 +39,7 @@ model.add(layers.Dense(1))
 model.summary()
 adam_optimizer = keras.optimizers.Adam(learning_rate=0.0001)
 model.compile(optimizer=adam_optimizer,
-              loss=tf.keras.losses.BinaryCrossentropy(from_logits=False),
+              loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
               metrics=['accuracy'])
 checkpoint_path = "cp4.ckpt"
 
