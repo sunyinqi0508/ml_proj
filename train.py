@@ -39,7 +39,7 @@ model.add(layers.Dense(1))
 model.summary()
 adam_optimizer = keras.optimizers.Adam(learning_rate=0.0001)
 model.compile(optimizer=adam_optimizer,
-              loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
+              loss=tf.keras.losses.BinaryCrossentropy(from_logits=False),
               metrics=['accuracy'])
 checkpoint_path = "cp4.ckpt"
 
@@ -52,7 +52,7 @@ while (b > 0):
     model.fit(train_x, train_y, epochs=1, batch_size=b,
                     validation_data=(test_x, test_y), 
                     callbacks = [cp_callback])
-    input(b)
+    b = int(input())
 
 # model.fit(train_x, train_y, epochs=1, batch_size=32,
 #                     validation_data=(test_x, test_y), 
