@@ -48,7 +48,7 @@ def read_west_l(name):
         k = 0
         ii = 0
         print(j)
-        for i in range(0, 1500):
+        for i in range(0, 2000):
             img = cv2.imread('X:/Users/bill/Desktop/ML/proj/code/by_class/'+ s_cls +'/hsf_'+str(k)+'/hsf_'+str(k)+'_0'+tostr(ii)+'.png')
             while img is None:
                 ii = 0
@@ -68,8 +68,23 @@ def read_west_l(name):
     n_west.tofile(name)
 
 def write_labels():
+    idxs = [hex(i)[2:] for i in range(48,58)]
+    idxs+=[hex(i)[2:] for i in range(65, 91)]
+    idxs+= [hex(i)[2:] for i in range(97, 123)]
     labels = [[chr(int(j, 16)) for _ in range(0, 122)] for j in idxs]
     n_labels = np.array(labels).flatten()
     n_labels.tofile('labels')
 
-read_west_l('west2k')
+def write_labels2():
+    cn2order=[i for i in range(0,62)]
+    westorder = [i for i in range(0, 10)] 
+    westorder += [i for i in range(36, 62)]
+    westorder += [i for i in range(10, 36)]
+
+    cnlabels = [j//122 for j in range(0, 122*62)]
+    west_labels=[(westorder[j//2000]) for j in range(0, 2000*62)]
+    np.array(cnlabels).astype('uint8').tofile('cn.label')
+    np.array(west_labels).astype('uint8').tofile('west.label')
+# read_west_l('west2k')
+
+write_labels2()

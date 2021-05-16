@@ -19,14 +19,18 @@ def filter(i):
     i = int(i)
     i = i if i < 10 or i > 100 else i - 10  
     return int((i*i*i)/(255*255))
-
+labels = np.empty(63714)
+n = 0
+populate_label = True
 for j in range(0, 36):
     cls = idxs[j]
     s_cls = chr(cls)
     k = 0
     ii = 1
     while True:
+
         img = cv2.imread('./cn2/'+kk[k]+'/'+ s_cls +'/'+str(ii)+'.png')
+
         ii += 1
         if img is None and k == 1:
             # print (ii)
@@ -36,6 +40,16 @@ for j in range(0, 36):
             print (ii)
             ii = 1
             continue
+        
+        if  j >= 10 and ii % 2 == 1:
+            labels[n] = j+26
+        else:
+            labels[n] = j
+        n+=1
+        
+        if populate_label:
+            continue 
+
         arr = []
         for ir in img:
             c = []
@@ -44,6 +58,7 @@ for j in range(0, 36):
             arr.append(c)
         w = len(c)
         h = len(arr)
+
         if(w > 128 or h > 128):
             if(w > h):
                 w_ = 128
@@ -68,6 +83,12 @@ for j in range(0, 36):
         cn2.append(padding.tolist())
         if(padding.shape[0]!= 128 or padding.shape[1] != 128):
             print(padding.shape)
-ncn2 = np.array(cn2).astype('uint8')
-print(ncn2.shape)        
-ncn2.tofile('cn2.data')
+if(not populate_label):
+    ncn2 = np.array(cn2).astype('uint8')
+    print(ncn2.shape)        
+    ncn2.tofile('cn2.data')
+
+nlabels = np.array(labels).astype('uint8')
+print(nlabels.shape)
+nlabels.tofile('cn2.label')
+
