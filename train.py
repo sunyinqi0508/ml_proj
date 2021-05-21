@@ -34,13 +34,16 @@ labels = np.concatenate((cn1_label, cn2_label, west_label), axis=0)
 
 # labels = west_label
 labels = np.where(labels>=36, labels - 36, labels)
-train_x, test_x, train_y, test_y = train_test_split(data, y,shuffle=True, train_size=0.9)
 
-train_x.tofile('train_x')
-train_y.tofile('train_y')
-test_x.tofile('test_x')
-test_y.tofile('test_y')
-print(train_x.shape, train_y.shape, test_x.shape, test_y.shape)
+def split_all_binarylabel():
+    global train_x, test_x, train_y, test_y
+    train_x, test_x, train_y, test_y = train_test_split(data, y,shuffle=True, train_size=0.9)
+    train_x.tofile('train_x')
+    train_y.tofile('train_y')
+    test_x.tofile('test_x')
+    test_y.tofile('test_y')
+    print(train_x.shape, train_y.shape, test_x.shape, test_y.shape)
+
 # data = datasets.cifar10.load_data()
 def split_west():
     global train_x, test_x, train_y, test_y
@@ -52,6 +55,7 @@ def split_west():
     train_y.tofile('train_y')
     test_x.tofile('test_x')
     test_y.tofile('test_y')
+    print(train_x.shape, train_y.shape, test_x.shape, test_y.shape)
 
 def split_cn():
     global train_x, test_x, train_y, test_y
@@ -63,6 +67,7 @@ def split_cn():
     train_y.tofile('train_y')
     test_x.tofile('test_x')
     test_y.tofile('test_y')
+    print(train_x.shape, train_y.shape, test_x.shape, test_y.shape)
 
 def split_all():
     global train_x, test_x, train_y, test_y
@@ -74,6 +79,7 @@ def split_all():
     train_y.tofile('train_y')
     test_x.tofile('test_x')
     test_y.tofile('test_y')
+    print(train_x.shape, train_y.shape, test_x.shape, test_y.shape)
 
 def dnn_categorial_model():
     model = models.Sequential()
@@ -248,7 +254,7 @@ def from_categorial(y):
     return n
 
 def train_accent_recognizer():
-    split_all()
+    split_all_binarylabel()
     binary_model = dnn_binary_model()
     binary_model = dnn_train(binary_model)
     valid_binary(binary_model)
